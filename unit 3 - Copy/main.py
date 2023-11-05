@@ -11,7 +11,7 @@ wn.addshape("resized_black_piece.gif")
 screen =trtl.Screen()
 screen.setup(800, 800)
 screen.bgcolor("white")
-
+#ex comment
 # Create a Turtle object
 board = trtl.Turtle()
 board.speed(0)  # Set the drawing speed (0 is the fastest)
