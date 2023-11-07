@@ -3,12 +3,12 @@ import turtle as trtl
 # Create the main game window and set the background image
 wn = trtl.Screen()
 wn.tracer(False)
-wn.addshape("./images/resized_red_piece.gif")
-wn.addshape("./images/resized_black_piece.gif")
+wn.addshape("./unit 3/images/resized_red_piece.gif")
+wn.addshape("./unit 3/images/resized_black_piece.gif")
 
 # Set up the Turtle screen
 screen = trtl.Screen()
-screen.setup(800, 700)
+screen.setup(800, 800)
 screen.bgcolor("white")
 
 # Create a Turtle object for the checkerboard
@@ -54,9 +54,9 @@ def create_checkers_piece(x, y, color):
     piece = trtl.Turtle()
     piece.speed(0)
     if color == "red":
-        piece.shape("./images/resized_red_piece.gif")
+        piece.shape("./unit 3/images/resized_red_piece.gif")
     elif color == "black":
-        piece.shape("./images/resized_black_piece.gif")
+        piece.shape("./unit 3/images/resized_black_piece.gif")
     piece.penup()
     piece.goto(x, y)
     pieces.append((piece, color, (x, y)))
@@ -88,13 +88,16 @@ def is_valid_move(piece, new_x, new_y, color):
         # Check if the new position is empty (i.e., no other piece is there)
         for other_piece, _, pos in pieces:
             if pos == new_pos:
+                print("Invalid move: The selected space is already occupied")
                 return False
 
         # Check if the color of the piece matches the player's turn
         if color == "black" and new_y <= piece_y:
+            print("Invalid move: Black piece can't move backward")
             return False
 
         if color == "red" and new_y >= piece_y:
+            print("Invalid move: Red piece can't move backward")
             return False
 
         return True
@@ -115,13 +118,14 @@ def on_click(x, y):
                     selected_piece_pos = pos
                     selected_piece_color = color
                     print(f"Selected piece: {color} at position {pos}")
+                else:
+                    print(f"Player clicked on a {color} piece on {current_turn}'s turn")
                 break
     else:
-        # Check if the clicked square is valid for a move or capture
+        # Check if the clicked square is valid for a move
         valid_move = is_valid_move(selected_piece, x, y, selected_piece_color)
-        valid_capture = is_valid_capture(selected_piece, x, y, selected_piece_color)
 
-        if valid_move or valid_capture:
+        if valid_move:
             move_x = ((x // 100) * 100) + 50
             move_y = ((y // 100) * 100) + 50
             move_checkers_piece(selected_piece, move_x, move_y)
@@ -134,12 +138,6 @@ def on_click(x, y):
                 fix_x = ((move_x // 100) * 100) + 50
                 fix_y = ((move_y // 100) * 100) + 50
                 pieces[piece_index] = (selected_piece, selected_piece_color, (fix_x, fix_y))
-
-            if valid_capture:
-                capture_x = (selected_piece_pos[0] + move_x) // 2
-                capture_y = (selected_piece_pos[1] + move_y) // 2
-                capture_piece_at = (capture_x, capture_y)
-                capture_piece(selected_piece, capture_piece_at)
 
             selected_piece = None
             selected_piece_pos = None
@@ -156,15 +154,6 @@ def switch_turn():
         current_turn = "black"
     else:
         current_turn = "red"
-
-# Function to capture an opponent's piece
-def capture_piece(selected_piece, capture_piece_at):
-    # Find and remove the captured piece from the pieces list
-    for index, (piece, color, pos) in enumerate(pieces):
-        if pos == capture_piece_at:
-            pieces.pop(index)
-            piece.hideturtle()
-            print(f"Piece captured at {capture_piece_at}")
 
 # Function to check if a capture move is valid
 def is_valid_capture(piece, new_x, new_y, color):
@@ -199,6 +188,15 @@ def is_valid_capture(piece, new_x, new_y, color):
                 return True
 
     return False
+
+# Function to capture an opponent's piece
+def capture_piece(selected_piece, capture_piece_at):
+    # Find and remove the captured piece from the pieces list
+    for index, (piece, color, pos) in enumerate(pieces):
+        if pos == capture_piece_at:
+            pieces.pop(index)
+            piece.hideturtle()
+            print(f"Piece captured at {capture_piece_at}")
 
 # positions for pieces
 positions = [(-350, 350, "red"), (-150, 350, "red"), (50, 350, "red"), (250, 350, "red"), (-250, 250, "red"), (-50, 250, "red"), (150, 250, "red"), (350, 250, "red"),

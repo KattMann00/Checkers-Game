@@ -1,5 +1,3 @@
-#checking something
-
 import turtle as trtl
 
 # Create the main game window and set the background image
