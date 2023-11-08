@@ -1,7 +1,7 @@
 from PIL import Image
 
 # Open the GIF
-gif_path = "black piece.gif"
+gif_path = "./images/red king.gif"
 original_gif = Image.open(gif_path)
 
 # Get the number of frames in the GIF
@@ -22,7 +22,7 @@ for frame in range(num_frames):
     resized_frames.append(frame_image)
 
 # Save the resized frames as a new GIF
-output_gif_path = "resized_black_piece.gif"
+output_gif_path = "resized_red_king.gif"
 resized_frames[0].save(
     output_gif_path,
     save_all=True,
