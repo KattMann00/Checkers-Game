@@ -13,7 +13,11 @@ screen.bgcolor("white")
 
 # Create a Turtle object for the checkerboard
 board = trtl.Turtle()
-board.speed(0)  # Set the drawing speed (0 is the fastest)
+highlighter = trtl.Turtle()
+board.speed(0)
+highlighter.speed(0)
+highlighter.hideturtle()
+board.hideturtle()
 
 # Function to draw a square
 def draw_square(size, color):
@@ -48,38 +52,40 @@ for _ in range(8):
 
 # Create a list to store the turtle objects for the checkers pieces and their positions
 pieces = []
+highlight_squares = []
 
 # Function to draw a highlighted square
-def draw_highlight_square(x, y, color):
+def draw_highlight_square(x, y):
     wn.tracer(False)
-    board.penup()
-    board.goto(x - 50, y - 50)
-    board.pendown()
-    board.fillcolor(color)
-    board.begin_fill()
+    highlighter.penup()
+    highlighter.goto(x - 50, y + 50)
+    highlighter.pendown()
+    highlighter.fillcolor("lightblue")
+    highlighter.begin_fill()
     for _ in range(4):
-        board.forward(100)
-        board.right(90)
-    board.end_fill()
-    board.penup()
+        highlighter.forward(100)
+        highlighter.right(90)
+    highlighter.end_fill()
+    highlighter.penup()
+    highlighter.hideturtle()
     wn.tracer(True)
 
 # Function to highlight available moves for a selected piece
 def highlight_available_moves(selected_piece, selected_piece_color):
     x, y = selected_piece.pos()
-    highlight_color = "lightblue"  # You can choose any color for highlighting
     valid_moves = []
-    
+
     # Calculate valid moves for the selected piece
     for dx in [-100, 100]:
         for dy in [-100, 100]:
             new_x, new_y = x + dx, y + dy
             if is_valid_move(selected_piece, new_x, new_y, selected_piece_color):
                 valid_moves.append((new_x, new_y))
-    
+
     # Draw highlight squares for valid moves
     for move_x, move_y in valid_moves:
-        draw_highlight_square(move_x, move_y, highlight_color)
+        draw_highlight_square(move_x, move_y)
+        highlight_squares.append(board.clone())
 
 # Function to create a checkers piece turtle at a given position
 def create_checkers_piece(x, y, color):
@@ -172,6 +178,7 @@ def on_click(x, y):
                 fix_y = ((move_y // 100) * 100) + 50
                 pieces[piece_index] = (selected_piece, selected_piece_color, (fix_x, fix_y))
 
+            highlighter.clear()  # Remove highlights when the move is complete
             selected_piece = None
             selected_piece_pos = None
             switch_turn()
@@ -179,10 +186,12 @@ def on_click(x, y):
             # Deselect the piece if the click was not valid
             selected_piece = None
             selected_piece_pos = None
+            highlighter.clear()  # Remove highlights when the piece is deselected
 
 # Function to switch the turn to the other player
 def switch_turn():
     global current_turn
+    highlighter.clear()
     if current_turn == "red":
         current_turn = "black"
     else:
