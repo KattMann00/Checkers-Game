@@ -3,8 +3,8 @@ import turtle as trtl
 # Create the main game window and set the background image
 wn = trtl.Screen()
 wn.tracer(False)
-wn.addshape("./unit 3/images/resized_red_piece.gif")
-wn.addshape("./unit 3/images/resized_black_piece.gif")
+wn.addshape("images/resized_red_piece.gif")
+wn.addshape("images/resized_black_piece.gif")
 
 # Set up the Turtle screen
 screen = trtl.Screen()
@@ -92,9 +92,9 @@ def create_checkers_piece(x, y, color):
     piece = trtl.Turtle()
     piece.speed(0)
     if color == "red":
-        piece.shape("./unit 3/images/resized_red_piece.gif")
+        piece.shape("images/resized_red_piece.gif")
     elif color == "black":
-        piece.shape("./unit 3/images/resized_black_piece.gif")
+        piece.shape("images/resized_black_piece.gif")
     piece.penup()
     piece.goto(x, y)
     pieces.append((piece, color, (x, y)))
