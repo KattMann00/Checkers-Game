@@ -6,7 +6,7 @@ wn.tracer(False)
 wn.addshape("./unit 3/images/resized_red_piece.gif")
 wn.addshape("./unit 3/images/resized_black_piece.gif")
 
-# Set up the Turtle screen
+# Set up the Turtle 
 screen = trtl.Screen()
 screen.setup(800, 800)
 screen.bgcolor("white")
